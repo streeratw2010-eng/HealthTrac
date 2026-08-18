@@ -3,109 +3,140 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HealthTrack</title>
+<title>HealthTrack - คำนวณแคลอรี่</title>
 
 <style>
-    * {
-        box-sizing: border-box;
-        font-family: Arial, "Noto Sans Thai", sans-serif;
-    }
+* {
+    box-sizing: border-box;
+    font-family: Arial, "Noto Sans Thai", sans-serif;
+}
 
-    body {
-        margin: 0;
-        background: #f4f7fb;
-        color: #222;
-    }
+body {
+    margin: 0;
+    background: #f3f7f5;
+    color: #263238;
+}
 
-    .container {
-        max-width: 430px;
-        margin: auto;
-        min-height: 100vh;
-        background: white;
-        padding: 25px 20px;
-    }
+.container {
+    width: 100%;
+    max-width: 480px;
+    margin: auto;
+    min-height: 100vh;
+    padding: 25px 18px;
+}
 
-    .welcome {
-        text-align: center;
-        padding-top: 35px;
-    }
+.card {
+    background: white;
+    border-radius: 24px;
+    padding: 25px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+    margin-top: 20px;
+}
 
-    .icon {
-        width: 70px;
-        height: 70px;
-        margin: auto;
-        border-radius: 18px;
-        background: #e8f5e9;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 36px;
-    }
+.center {
+    text-align: center;
+}
 
-    h1 {
-        margin: 15px 0 5px;
-    }
+.icon {
+    width: 70px;
+    height: 70px;
+    margin: 30px auto 15px;
+    border-radius: 20px;
+    background: #dff7e9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+}
 
-    .subtitle {
-        color: #777;
-        margin-bottom: 30px;
-    }
+h1 {
+    margin-bottom: 8px;
+}
 
-    button {
-        width: 100%;
-        padding: 14px;
-        border: none;
-        border-radius: 12px;
-        background: #2e7d32;
-        color: white;
-        font-size: 17px;
-        cursor: pointer;
-    }
+.subtitle {
+    color: #718096;
+    margin-bottom: 30px;
+}
 
-    .form {
-        display: none;
-    }
+button {
+    width: 100%;
+    border: none;
+    border-radius: 14px;
+    padding: 15px;
+    background: #2e9d62;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-    label {
-        display: block;
-        margin-top: 17px;
-        margin-bottom: 7px;
-        font-weight: bold;
-    }
+button:hover {
+    background: #258452;
+}
 
-    input {
-        width: 100%;
-        padding: 13px;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        font-size: 16px;
-    }
+.hidden {
+    display: none;
+}
 
-    .result {
-        margin-top: 25px;
-        padding: 18px;
-        border-radius: 14px;
-        background: #f1f8e9;
-        display: none;
-    }
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
 
-    .result h2 {
-        margin-top: 0;
-    }
+input, select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d7dee3;
+    border-radius: 12px;
+    font-size: 16px;
+    background: white;
+}
 
-    .status {
-        margin-top: 15px;
-        padding: 12px;
-        border-radius: 10px;
-        background: white;
-    }
+.result {
+    margin-top: 18px;
+    padding: 15px;
+    border-radius: 15px;
+    background: #f4faf6;
+}
 
-    .card {
-        padding: 15px;
-        margin-top: 12px;
-        border-radius: 12px;
-        background: #f7f7f7;
-    }
+.result h3 {
+    margin-top: 0;
+}
+
+.number {
+    font-size: 25px;
+    font-weight: bold;
+    color: #2e9d62;
+}
+
+.warning {
+    padding: 15px;
+    border-radius: 14px;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.warning.good {
+    background: #e3f7eb;
+    color: #176b3b;
+}
+
+.warning.low {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.warning.high {
+    background: #ffe3e3;
+    color: #a52828;
+}
+
+.back {
+    background: #718096;
+    margin-top: 10px;
+}
 </style>
 </head>
 
@@ -114,99 +145,166 @@
 <div class="container">
 
     <!-- หน้าแรก -->
-    <div class="welcome" id="welcome">
-        <div class="icon">❤️</div>
+    <section id="home" class="card center">
+
+        <div class="icon">🔥</div>
 
         <h1>HealthTrack</h1>
-        <div class="subtitle">
-            ติดตามสุขภาพครบวงจร
-        </div>
+
+        <p class="subtitle">
+            ระบบคำนวณและติดตามแคลอรี่
+        </p>
 
         <button onclick="startApp()">
             เริ่มใช้งาน
         </button>
-    </div>
+
+    </section>
 
 
     <!-- หน้ากรอกข้อมูล -->
-    <div class="form" id="form">
+    <section id="formPage" class="card hidden">
 
-        <h1>ข้อมูลสุขภาพวันนี้</h1>
+        <h2>ข้อมูลของคุณ</h2>
 
-        <label>จำนวนก้าวเดิน</label>
+        <label>เพศ</label>
+        <select id="gender">
+            <option value="male">ชาย</option>
+            <option value="female">หญิง</option>
+        </select>
+
+        <label>อายุ (ปี)</label>
         <input
             type="number"
-            id="steps"
-            min="0"
-            placeholder="เช่น 6000"
+            id="age"
+            min="13"
+            max="100"
+            placeholder="เช่น 20"
         >
 
         <label>ส่วนสูง (ซม.)</label>
         <input
             type="number"
             id="height"
-            min="1"
-            placeholder="เช่น 165"
+            min="100"
+            max="250"
+            placeholder="เช่น 170"
         >
 
         <label>น้ำหนัก (กก.)</label>
         <input
             type="number"
             id="weight"
-            min="1"
-            placeholder="เช่น 55"
+            min="20"
+            max="300"
+            step="0.1"
+            placeholder="เช่น 60"
         >
 
-        <label>เวลานอน (ชั่วโมง)</label>
+        <label>จำนวนก้าวเดินต่อวัน</label>
         <input
             type="number"
-            id="sleep"
+            id="steps"
             min="0"
-            max="24"
-            step="0.5"
-            placeholder="เช่น 8"
+            placeholder="เช่น 8000"
         >
 
-        <label>เวลาออกกำลังกาย (นาที)</label>
-        <input
-            type="number"
-            id="exercise"
-            min="0"
-            placeholder="เช่น 30"
-        >
+        <label>ระดับกิจกรรมประจำวัน</label>
+        <select id="activity">
+            <option value="1.2">
+                นั่งเป็นส่วนใหญ่ / ไม่ค่อยออกกำลังกาย
+            </option>
+
+            <option value="1.375">
+                ออกกำลังกายเบา ๆ 1-3 วัน/สัปดาห์
+            </option>
+
+            <option value="1.55">
+                ออกกำลังกายปานกลาง 3-5 วัน/สัปดาห์
+            </option>
+
+            <option value="1.725">
+                ออกกำลังกายหนัก 6-7 วัน/สัปดาห์
+            </option>
+
+            <option value="1.9">
+                ออกกำลังกายหนักมาก
+            </option>
+        </select>
 
         <br><br>
 
-        <button onclick="calculateHealth()">
-            ประเมินข้อมูล
+        <button onclick="calculate()">
+            🔥 คำนวณแคลอรี่
         </button>
 
+        <button class="back" onclick="goHome()">
+            กลับหน้าแรก
+        </button>
 
-        <!-- ผลลัพธ์ -->
-        <div class="result" id="result">
+    </section>
 
-            <h2>ผลการประเมิน</h2>
 
-            <div class="card">
-                👣 ก้าวเดินวันนี้:
-                <strong id="stepResult"></strong> ก้าว
-            </div>
+    <!-- หน้าผลลัพธ์ -->
+    <section id="resultPage" class="card hidden">
 
-            <div class="card">
-                😴 เวลานอน:
-                <strong id="sleepResult"></strong> ชั่วโมง
-            </div>
+        <h2>📊 ผลการคำนวณ</h2>
 
-            <div class="card">
-                🏃 เวลาออกกำลังกาย:
-                <strong id="exerciseResult"></strong> นาที
-            </div>
+        <div class="result">
+            <h3>BMR</h3>
+            <p>
+                พลังงานขั้นต่ำที่ร่างกายใช้ต่อวัน
+            </p>
 
-            <div class="status" id="status"></div>
-
+            <div class="number" id="bmr"></div>
         </div>
 
-    </div>
+        <div class="result">
+            <h3>TDEE</h3>
+            <p>
+                พลังงานที่ร่างกายใช้โดยประมาณต่อวัน
+            </p>
+
+            <div class="number" id="tdee"></div>
+        </div>
+
+        <div class="result">
+            <h3>🔥 แคลอรี่จากการเดิน</h3>
+
+            <div class="number" id="walkingCalories"></div>
+
+            <p id="stepText"></p>
+        </div>
+
+        <div class="result">
+            <h3>🎯 เป้าหมายแคลอรี่</h3>
+
+            <div class="number" id="goal"></div>
+
+            <p id="goalText"></p>
+        </div>
+
+        <div class="result">
+            <h3>🍽️ การควบคุมอาหาร</h3>
+
+            <p id="foodAdvice"></p>
+        </div>
+
+        <div class="result">
+            <h3>🏃 การออกกำลังกาย</h3>
+
+            <p id="exerciseAdvice"></p>
+        </div>
+
+        <div id="warning"></div>
+
+        <br>
+
+        <button class="back" onclick="goBack()">
+            ← คำนวณใหม่
+        </button>
+
+    </section>
 
 </div>
 
@@ -215,108 +313,247 @@
 
 function startApp() {
 
-    document.getElementById("welcome").style.display = "none";
+    document.getElementById("home").classList.add("hidden");
 
-    document.getElementById("form").style.display = "block";
+    document.getElementById("formPage").classList.remove("hidden");
+
 }
 
 
-function calculateHealth() {
+function goHome() {
 
-    const steps =
-        Number(document.getElementById("steps").value) || 0;
+    document.getElementById("formPage").classList.add("hidden");
+
+    document.getElementById("home").classList.remove("hidden");
+
+}
+
+
+function goBack() {
+
+    document.getElementById("resultPage").classList.add("hidden");
+
+    document.getElementById("formPage").classList.remove("hidden");
+
+}
+
+
+function calculate() {
+
+    const gender =
+        document.getElementById("gender").value;
+
+    const age =
+        Number(document.getElementById("age").value);
 
     const height =
-        Number(document.getElementById("height").value) || 0;
+        Number(document.getElementById("height").value);
 
     const weight =
-        Number(document.getElementById("weight").value) || 0;
+        Number(document.getElementById("weight").value);
 
-    const sleep =
-        Number(document.getElementById("sleep").value) || 0;
+    const steps =
+        Number(document.getElementById("steps").value);
 
-    const exercise =
-        Number(document.getElementById("exercise").value) || 0;
-
-
-    document.getElementById("stepResult").textContent = steps;
-
-    document.getElementById("sleepResult").textContent = sleep;
-
-    document.getElementById("exerciseResult").textContent = exercise;
+    const activity =
+        Number(document.getElementById("activity").value);
 
 
-    let messages = [];
+    if (
+        !age ||
+        !height ||
+        !weight ||
+        steps < 0
+    ) {
+
+        alert("กรุณากรอกข้อมูลให้ครบ");
+
+        return;
+
+    }
 
 
-    // ประเมินกิจกรรม
-    if (steps < 3000) {
+    /*
+       สูตร Mifflin-St Jeor
+       ชาย:
+       BMR = 10W + 6.25H - 5A + 5
 
-        messages.push(
-            "🚶 วันนี้ลองเพิ่มกิจกรรมระหว่างวัน เช่น เดินเล่นหรือขยับร่างกายเป็นช่วง ๆ"
-        );
+       หญิง:
+       BMR = 10W + 6.25H - 5A - 161
+    */
 
-    } else if (steps < 7000) {
+    let bmr;
 
-        messages.push(
-            "👍 มีกิจกรรมการเดินในระดับหนึ่งแล้ว สามารถขยับร่างกายเพิ่มเติมตามความเหมาะสม"
-        );
+    if (gender === "male") {
+
+        bmr =
+            (10 * weight) +
+            (6.25 * height) -
+            (5 * age) +
+            5;
 
     } else {
 
-        messages.push(
-            "👏 วันนี้มีกิจกรรมการเดินค่อนข้างมาก"
-        );
+        bmr =
+            (10 * weight) +
+            (6.25 * height) -
+            (5 * age) -
+            161;
+
     }
 
 
-    // ประเมินการนอน
-    if (sleep < 7) {
+    /*
+       TDEE
+       = BMR × Activity Factor
+    */
 
-        messages.push(
-            "😴 เวลานอนค่อนข้างน้อย ควรให้ความสำคัญกับการพักผ่อน"
-        );
+    let tdee = bmr * activity;
+
+
+    /*
+       ประมาณแคลอรี่จากการเดิน
+
+       ระยะทางโดยประมาณ
+       = จำนวนก้าว × ความยาวก้าว
+
+       ความยาวก้าวโดยประมาณ
+       = ส่วนสูง × 0.413 สำหรับผู้หญิง
+       = ส่วนสูง × 0.415 สำหรับผู้ชาย
+    */
+
+    let stepLength;
+
+    if (gender === "male") {
+
+        stepLength = height * 0.415;
 
     } else {
 
-        messages.push(
-            "🌙 เวลานอนอยู่ในช่วงที่ดี"
-        );
+        stepLength = height * 0.413;
+
     }
 
 
-    // ประเมินการออกกำลังกาย
-    if (exercise === 0) {
+    let distance =
+        (steps * stepLength) / 100000;
 
-        messages.push(
-            "🏃 วันนี้ยังไม่ได้บันทึกการออกกำลังกาย"
-        );
+
+    /*
+       ประมาณพลังงานจากการเดิน
+    */
+
+    let walkingCalories =
+        weight * distance * 0.5;
+
+
+    /*
+       เป้าหมายมาตรฐาน
+
+       ชายประมาณ 2,500 kcal
+       หญิงประมาณ 2,000 kcal
+
+       ใช้เป็นค่าอ้างอิงเบื้องต้น
+    */
+
+    let standardGoal;
+
+    if (gender === "male") {
+
+        standardGoal = 2500;
 
     } else {
 
-        messages.push(
-            "💪 มีการบันทึกกิจกรรมออกกำลังกายในวันนี้"
-        );
+        standardGoal = 2000;
+
     }
 
 
-    // ตรวจข้อมูล
-    if (height <= 0 || weight <= 0) {
+    /*
+       ใช้ TDEE เป็นค่าหลัก
+       และไม่ให้เป้าหมายต่ำเกินไป
+    */
 
-        messages.push(
-            "ℹ️ หากต้องการเก็บข้อมูลส่วนสูงและน้ำหนัก กรุณาตรวจสอบว่ากรอกข้อมูลถูกต้อง"
-        );
+    let goal =
+        Math.round(tdee);
+
+
+    /*
+       แสดงผล
+    */
+
+    document.getElementById("bmr").textContent =
+        Math.round(bmr) + " kcal/วัน";
+
+
+    document.getElementById("tdee").textContent =
+        Math.round(tdee) + " kcal/วัน";
+
+
+    document.getElementById("walkingCalories").textContent =
+        Math.round(walkingCalories) + " kcal";
+
+
+    document.getElementById("stepText").textContent =
+        "ประมาณ " +
+        distance.toFixed(2) +
+        " กิโลเมตร จาก " +
+        steps.toLocaleString() +
+        " ก้าว";
+
+
+    document.getElementById("goal").textContent =
+        goal.toLocaleString() +
+        " kcal/วัน";
+
+
+    document.getElementById("goalText").textContent =
+        "ค่าอ้างอิงทั่วไปสำหรับ " +
+        (gender === "male" ? "ชาย" : "หญิง") +
+        " คือประมาณ " +
+        standardGoal.toLocaleString() +
+        " kcal/วัน";
+
+
+    /*
+       คำแนะนำอาหาร
+    */
+
+    let foodDifference =
+        standardGoal - goal;
+
+
+    if (foodDifference > 0) {
+
+        document.getElementById("foodAdvice").textContent =
+            "เป้าหมายของคุณต่ำกว่าค่ามาตรฐานประมาณ " +
+            Math.abs(Math.round(foodDifference)) +
+            " kcal/วัน ควรเลือกอาหารที่มีคุณค่าทางโภชนาการให้เพียงพอ";
+
+    } else {
+
+        document.getElementById("foodAdvice").textContent =
+            "เป้าหมายของคุณสูงกว่าค่ามาตรฐานประมาณ " +
+            Math.abs(Math.round(foodDifference)) +
+            " kcal/วัน ควรเลือกรับประทานอาหารให้เหมาะกับกิจกรรมของร่างกาย";
+
     }
 
 
-    document.getElementById("status").innerHTML =
-        messages.map(message => `<p>${message}</p>`).join("");
+    /*
+       คำแนะนำการออกกำลังกาย
+    */
+
+    let exerciseCalories =
+        Math.round(walkingCalories);
 
 
-    document.getElementById("result").style.display = "block";
-}
+    if (steps < 5000) {
 
-</script>
+        document.getElementById("exerciseAdvice").textContent =
+            "จำนวนก้าวค่อนข้างน้อย ลองเพิ่มการเดินหรือกิจกรรมทางกายอย่างค่อยเป็นค่อยไป";
 
-</body>
-</html>
+    } else if (steps < 10000) {
+
+        document.getElementById("exerciseAdvice").textContent =
+            "ระดับการเดินอยู่ในระดับหนึ่ง ส
