@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HealthTrack</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        font-family: Arial, "Noto Sans Thai", sans-serif;
+    }
+
+    body {
+        margin: 0;
+        background: #f4f7fb;
+        color: #222;
+    }
+
+    .container {
+        max-width: 430px;
+        margin: auto;
+        min-height: 100vh;
+        background: white;
+        padding: 25px 20px;
+    }
+
+    .welcome {
+        text-align: center;
+        padding-top: 35px;
+    }
+
+    .icon {
+        width: 70px;
+        height: 70px;
+        margin: auto;
+        border-radius: 18px;
+        background: #e8f5e9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+    }
+
+    h1 {
+        margin: 15px 0 5px;
+    }
+
+    .subtitle {
+        color: #777;
+        margin-bottom: 30px;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        background: #2e7d32;
+        color: white;
+        font-size: 17px;
+        cursor: pointer;
+    }
+
+    .form {
+        display: none;
+    }
+
+    label {
+        display: block;
+        margin-top: 17px;
+        margin-bottom: 7px;
+        font-weight: bold;
+    }
+
+    input {
+        width: 100%;
+        padding: 13px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+
+    .result {
+        margin-top: 25px;
+        padding: 18px;
+        border-radius: 14px;
+        background: #f1f8e9;
+        display: none;
+    }
+
+    .result h2 {
+        margin-top: 0;
+    }
+
+    .status {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 10px;
+        background: white;
+    }
+
+    .card {
+        padding: 15px;
+        margin-top: 12px;
+        border-radius: 12px;
+        background: #f7f7f7;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- หน้าแรก -->
+    <div class="welcome" id="welcome">
+        <div class="icon">❤️</div>
+
+        <h1>HealthTrack</h1>
+        <div class="subtitle">
+            ติดตามสุขภาพครบวงจร
+        </div>
+
+        <button onclick="startApp()">
+            เริ่มใช้งาน
+        </button>
+    </div>
+
+
+    <!-- หน้ากรอกข้อมูล -->
+    <div class="form" id="form">
+
+        <h1>ข้อมูลสุขภาพวันนี้</h1>
+
+        <label>จำนวนก้าวเดิน</label>
+        <input
+            type="number"
+            id="steps"
+            min="0"
+            placeholder="เช่น 6000"
+        >
+
+        <label>ส่วนสูง (ซม.)</label>
+        <input
+            type="number"
+            id="height"
+            min="1"
+            placeholder="เช่น 165"
+        >
+
+        <label>น้ำหนัก (กก.)</label>
+        <input
+            type="number"
+            id="weight"
+            min="1"
+            placeholder="เช่น 55"
+        >
+
+        <label>เวลานอน (ชั่วโมง)</label>
+        <input
+            type="number"
+            id="sleep"
+            min="0"
+            max="24"
+            step="0.5"
+            placeholder="เช่น 8"
+        >
+
+        <label>เวลาออกกำลังกาย (นาที)</label>
+        <input
+            type="number"
+            id="exercise"
+            min="0"
+            placeholder="เช่น 30"
+        >
+
+        <br><br>
+
+        <button onclick="calculateHealth()">
+            ประเมินข้อมูล
+        </button>
+
+
+        <!-- ผลลัพธ์ -->
+        <div class="result" id="result">
+
+            <h2>ผลการประเมิน</h2>
+
+            <div class="card">
+                👣 ก้าวเดินวันนี้:
+                <strong id="stepResult"></strong> ก้าว
+            </div>
+
+            <div class="card">
+                😴 เวลานอน:
+                <strong id="sleepResult"></strong> ชั่วโมง
+            </div>
+
+            <div class="card">
+                🏃 เวลาออกกำลังกาย:
+                <strong id="exerciseResult"></strong> นาที
+            </div>
+
+            <div class="status" id="status"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function startApp() {
+
+    document.getElementById("welcome").style.display = "none";
+
+    document.getElementById("form").style.display = "block";
+}
+
+
+function calculateHealth() {
+
+    const steps =
+        Number(document.getElementById("steps").value) || 0;
+
+    const height =
+        Number(document.getElementById("height").value) || 0;
+
+    const weight =
+        Number(document.getElementById("weight").value) || 0;
+
+    const sleep =
+        Number(document.getElementById("sleep").value) || 0;
+
+    const exercise =
+        Number(document.getElementById("exercise").value) || 0;
+
+
+    document.getElementById("stepResult").textContent = steps;
+
+    document.getElementById("sleepResult").textContent = sleep;
+
+    document.getElementById("exerciseResult").textContent = exercise;
+
+
+    let messages = [];
+
+
+    // ประเมินกิจกรรม
+    if (steps < 3000) {
+
+        messages.push(
+            "🚶 วันนี้ลองเพิ่มกิจกรรมระหว่างวัน เช่น เดินเล่นหรือขยับร่างกายเป็นช่วง ๆ"
+        );
+
+    } else if (steps < 7000) {
+
+        messages.push(
+            "👍 มีกิจกรรมการเดินในระดับหนึ่งแล้ว สามารถขยับร่างกายเพิ่มเติมตามความเหมาะสม"
+        );
+
+    } else {
+
+        messages.push(
+            "👏 วันนี้มีกิจกรรมการเดินค่อนข้างมาก"
+        );
+    }
+
+
+    // ประเมินการนอน
+    if (sleep < 7) {
+
+        messages.push(
+            "😴 เวลานอนค่อนข้างน้อย ควรให้ความสำคัญกับการพักผ่อน"
+        );
+
+    } else {
+
+        messages.push(
+            "🌙 เวลานอนอยู่ในช่วงที่ดี"
+        );
+    }
+
+
+    // ประเมินการออกกำลังกาย
+    if (exercise === 0) {
+
+        messages.push(
+            "🏃 วันนี้ยังไม่ได้บันทึกการออกกำลังกาย"
+        );
+
+    } else {
+
+        messages.push(
+            "💪 มีการบันทึกกิจกรรมออกกำลังกายในวันนี้"
+        );
+    }
+
+
+    // ตรวจข้อมูล
+    if (height <= 0 || weight <= 0) {
+
+        messages.push(
+            "ℹ️ หากต้องการเก็บข้อมูลส่วนสูงและน้ำหนัก กรุณาตรวจสอบว่ากรอกข้อมูลถูกต้อง"
+        );
+    }
+
+
+    document.getElementById("status").innerHTML =
+        messages.map(message => `<p>${message}</p>`).join("");
+
+
+    document.getElementById("result").style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
